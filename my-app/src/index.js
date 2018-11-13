@@ -4,9 +4,22 @@ import './index.css';
 
 // React Component, renders a single <button>
 class Square extends React.Component {
+  // React components can have state by setting this.state
+  // in their constructors.
+  constructor(props) {
+    // In JS classes,
+    // you need to always call super when defining the constructor of a subclass.
+    // All React component classes that have a constructor should start it with a super(props) call.
+    super(props);
+    this.state = {
+      value:null,
+    };
+  }
+
   render() {
     return (
-      <button className="square">
+      // onClick test
+      <button className="square" onClick={() => alert('click')}>
         {this.props.value}
       </button>
     );
