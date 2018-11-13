@@ -18,9 +18,14 @@ class Square extends React.Component {
 
   render() {
     return (
-      // onClick test
-      <button className="square" onClick={() => alert('click')}>
-        {this.props.value}
+      // Fill the Square component with an “X” when we click
+      <button 
+        className="square"
+        // By calling this.setState from an onClick handler in the Square’s render method,
+        // we tell React to re-render that Square whenever its <button> is clicked.
+        onClick={() => this.setState({value: 'X'})}
+      >
+        {this.state.value}
       </button>
     );
   }
