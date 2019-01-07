@@ -2,30 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
-/*
-When a Square is clicked, the onClick function provided
-by the Board is called. 
-1. The onClick prop on the built-in DOM <button> component tells react to set up a click event listener.
-2. When the button is clicked, React will call the onClick event handler that is defined in Square's render() method.
-3. This event handler calls this.props.onClick(). The square's onClick prop was specified by the board.
-4. Since the board passed onClick={() => this.handleClick(i)} to Square, the Square calls this.handleClick(i) when clicked.
-*/
-class Square extends React.Component {
-  // Square no longer keeps track of the game's state
-  // So removed constructor
-  render() {
-    return (
-      // Fill the Square component with an “X” when we click
-      <button
-        className="square"
-        // By calling this.setState from an onClick handler in the Square’s render method,
-        // we tell React to re-render that Square whenever its <button> is clicked.
-        onClick={() => this.props.onClick()}
-      >
-        {this.props.value}
-      </button>
-    );
-  }
+function Square(props) {
+  // functional component
+  // changed this.props to props both times it appears
+  return (
+    <button className="square" onClick={props.onClick}>
+      {props.value}
+    </button>
+  );
 }
 
 // React Component, renders 9 squares
