@@ -1,31 +1,28 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
 
-// React Component, renders a single <button>
+/*
+When a Square is clicked, the onClick function provided
+by the Board is called. 
+1. The onClick prop on the built-in DOM <button> component tells react to set up a click event listener.
+2. When the button is clicked, React will call the onClick event handler that is defined in Square's render() method.
+3. This event handler calls this.props.onClick(). The square's onClick prop was specified by the board.
+4. Since the board passed onClick={() => this.handleClick(i)} to Square, the Square calls this.handleClick(i) when clicked.
+*/
 class Square extends React.Component {
-  // React components can have state by setting this.state
-  // in their constructors.
-  constructor(props) {
-    // In JS classes,
-    // you need to always call super when defining the constructor of a subclass.
-    // All React component classes that have a constructor should start it with a super(props) call.
-    super(props);
-    this.state = {
-      value:null,
-    };
-  }
-
+  // Square no longer keeps track of the game's state
+  // So removed constructor
   render() {
     return (
       // Fill the Square component with an “X” when we click
-      <button 
+      <button
         className="square"
         // By calling this.setState from an onClick handler in the Square’s render method,
         // we tell React to re-render that Square whenever its <button> is clicked.
-        onClick={() => this.setState({value: 'X'})}
+        onClick={() => this.props.onClick()}
       >
-        {this.state.value}
+        {this.props.value}
       </button>
     );
   }
@@ -33,13 +30,36 @@ class Square extends React.Component {
 
 // React Component, renders 9 squares
 class Board extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      squares: Array(9).fill(null)
+    };
+  }
+
+  handleClick(i) {
+    // call .slice() to create a copy of the squares array
+    // to modify instead of modifying existing array
+    // Immutability is important!
+    const squares = this.state.squares.slice();
+    squares[i] = "X";
+    this.setState({ squares: squares });
+  }
+
   renderSquare(i) {
-    // passing a prob called value to the Square
-    return <Square value={i} />;
+    // Each Square will now receive a value prop
+    // that will either be 'X', 'O', or null for empty squares.
+    return (
+      <Square
+        // passing two props value and onClick
+        value={this.state.squares[i]}
+        onClick={() => this.handleClick(i)}
+      />
+    );
   }
 
   render() {
-    const status = 'Next player: X';
+    const status = "Next player: X";
 
     return (
       <div>
@@ -83,8 +103,4 @@ class Game extends React.Component {
 
 // ========================================
 
-ReactDOM.render(
-  <Game />,
-  document.getElementById('root')
-);
-
+ReactDOM.render(<Game />, document.getElementById("root"));
